@@ -24,6 +24,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/*
+Mind the existence of container slot indices.
+
+When addSlot()-ing, I should use _inventory_ indices, which are unique per inventory. When opening a chest, the chest gets
+[0,26] and the player gets [0,35].
+
+In any situation in which I access a slot without specifying an inventory, I need to use a _container_ index. These are
+automatically assigned in the range [0, inf), and every time a slot is added it gets the next index.
+Therefore, adding player slots _before_ chest slots means they get the range [0,35] and the chest gets the range [36, 62]
+ */
 public class ContainerPowerCharger extends Container {
 
     private final TileEntity tileEntity;
@@ -31,10 +41,11 @@ public class ContainerPowerCharger extends Container {
 
     private LazyOptional<CustomEnergyStorage> TEEnergyCache = null;
 
-    private static final int PLAYER_INVENTORY_START = 3;
-    private static final int PLAYER_INVENTORY_END = 39;
-    private static final int CONTAINER_INVENTORY_START = 0;
-    private static final int CONTAINER_INVENTORY_END = 2;
+    //These are all container slot indices.
+    private static final int PLAYER_INVENTORY_START = 0;
+    private static final int PLAYER_INVENTORY_END = 35;
+    private static final int TE_INVENTORY_START = 36;
+    private static final int TE_INVENTORY_END = 38;
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -43,9 +54,9 @@ public class ContainerPowerCharger extends Container {
         this.tileEntity = world.getTileEntity(pos);
         this.playerInventory = new InvWrapper(playerInventory);
 
-        layoutPlayerInventorySlots(10, 70);
+        layoutPlayerInventorySlots(10, 70); //Player gets the container range [0,35]
 
-        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+        tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> { //and I get the container range [36,38]
             addSlot(new SlotItemHandler(h, 0, 33, 24));
             addSlot(new SlotItemHandler(h, 1, 82, 24));
             addSlot(new SlotItemHandler(h, 2, 131, 24));
@@ -92,17 +103,19 @@ public class ContainerPowerCharger extends Container {
 
     @Override
     //returns all the items that couldn't be moved
+    //This method goes by container indices. They are the unique per container, and automatically assigned depending on
+    //the order in which I added slots
     public ItemStack transferStackInSlot(PlayerEntity playerEntity, int sourceSlotindex) {
         Slot sourceSlot = getSlot(sourceSlotindex);
-        if(sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;
+        if(!sourceSlot.getHasStack()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
         if(isPlayerSlot(sourceSlotindex)) {
-            if (!mergeItemStack(sourceStack, CONTAINER_INVENTORY_START,CONTAINER_INVENTORY_END + 1, false)) {
+            if (!mergeItemStack(sourceStack, TE_INVENTORY_START,TE_INVENTORY_END + 1, false)) {
                 return ItemStack.EMPTY;
             }
-        } else if(isContainerSlot(sourceSlotindex)) {
+        } else if(isTESlot(sourceSlotindex)) {
                 if(!mergeItemStack(sourceStack, PLAYER_INVENTORY_START, PLAYER_INVENTORY_END + 1, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -148,11 +161,11 @@ public class ContainerPowerCharger extends Container {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
 
-    private static boolean isContainerSlot(int index) {
-        return index >= CONTAINER_INVENTORY_START && index < CONTAINER_INVENTORY_END + 1;
+    private boolean isPlayerSlot(int index) {
+        return index >= PLAYER_INVENTORY_START && index < PLAYER_INVENTORY_END + 1;
     }
 
-    private static boolean isPlayerSlot(int index) {
-        return index >= PLAYER_INVENTORY_START && index < PLAYER_INVENTORY_END + 1;
+    private boolean isTESlot(int index) {
+        return index >= TE_INVENTORY_START && index < TE_INVENTORY_END + 1;
     }
 }
