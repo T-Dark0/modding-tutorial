@@ -152,11 +152,11 @@ public class ContainerPowerCharger extends Container {
 
     private void layoutPlayerInventorySlots(int leftCol, int topRow) {
         // Player inventory
-        //Starting index is 9 because that's the top left inv slot
+        // Starting index is 9 because that's the top left inv slot
         addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18);
 
         // Hotbar
-        //starting index is 0 because that's the first hotbar slot
+        // Starting index is 0 because that's the first hotbar slot
         topRow += 58;
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
