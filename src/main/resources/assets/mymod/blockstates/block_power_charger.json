@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": {"model": "mymod:block/block_power_charger"},
+    "facing=south": {"model": "mymod:block/block_power_charger", "y":  180},
+    "facing=west": {"model": "mymod:block/block_power_charger", "y":  -90},
+    "facing=east": {"model": "mymod:block/block_power_charger", "y":  90},
+    "facing=up": {"model": "mymod:block/block_power_charger", "x":  -90},
+    "facing=down": {"model": "mymod:block/block_power_charger", "x":  90}
+  }
+}

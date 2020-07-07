@@ -1,0 +1,11 @@
+{
+  "_comment": "Blocks",
+  "block.mymod.firstblock": "First Block",
+
+  "_comment:": "Items",
+  "item.mymod.firstitem": "Good Looking Pickaxe",
+  "item.mymod.teleport_staff": "Teleport Staff",
+
+  "_comment": "Creative Tabs",
+  "itemGroup.mymod": "My Mod"
+}

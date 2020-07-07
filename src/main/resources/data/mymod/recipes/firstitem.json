@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xxx",
+    " | ",
+    " | "
+  ],
+  "key": {
+    "x": {
+      "item": "mymod:firstblock"
+    },
+    "|": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "mymod:firstitem"
+  }
+}

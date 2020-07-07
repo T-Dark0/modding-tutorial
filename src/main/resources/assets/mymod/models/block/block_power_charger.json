@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "mymod:block/machine_side",
+    "down": "mymod:block/machine_side",
+    "up": "mymod:block/machine_side",
+    "east": "mymod:block/machine_side",
+    "west": "mymod:block/machine_side",
+    "north": "mymod:block/block_power_charger_front",
+    "south": "mymod:block/machine_side"
+  }
+}

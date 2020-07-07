@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "My Mod",
+  "pattern": [
+    "ccc",
+    "crc",
+    "ccc"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:cobblestone"
+    },
+    "r": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "result": {
+    "item": "mymod:firstblock"
+  }
+}
