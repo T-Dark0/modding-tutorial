@@ -23,7 +23,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 /*
 Mind the existence of container slot indices.
 
