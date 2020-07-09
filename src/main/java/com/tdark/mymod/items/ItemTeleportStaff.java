@@ -3,6 +3,7 @@ package com.tdark.mymod.items;
 import com.tdark.mymod.MyMod;
 import com.tdark.mymod.setup.Config;
 import com.tdark.mymod.tools.CustomEnergyStorage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -66,6 +67,7 @@ public class ItemTeleportStaff extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+
         ItemStack thisStaff = player.getHeldItem(hand);
 
         if(world.isRemote) return ActionResult.resultSuccess(thisStaff);
